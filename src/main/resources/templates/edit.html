@@ -12,7 +12,10 @@
     <input type="text" th:field="*{name}" id="name"/>
     <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
     <br/>
-
+    <label for="lastname">Enter lastname: </label>
+    <input type="text" th:field="*{last_name}" id="lastname"/>
+    <div style="color:red" th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}">Age Error</div>
+    <br/>
     <label for="password">Enter password: </label>
     <input type="password" th:field="*{password}" id="password"/>
     <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</div>
@@ -21,6 +24,17 @@
     <input type="text" th:field="*{age}" id="age"/>
     <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
     <br/>
+
+    <div th:object="${ttt}">
+        <label for="role">Roles</label>
+        <select th:field="*{role}" id="role">
+
+
+            <option th:each="role:${list}" th:value="${role}" th:text="${role}">ADMIN</option>
+
+        </select></div>
+
+
     <label for="email">Enter email: </label>
     <input type="text" th:field="*{email}" id="email"/>
     <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>

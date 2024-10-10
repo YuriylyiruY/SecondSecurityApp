@@ -1,22 +1,18 @@
 package SecurityApp.models;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import org.springframework.security.core.GrantedAuthority;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "Auth")
-public class Auth {
+public class Auth implements GrantedAuthority {
 
     @Id
     @Column(name = "auth_id")
@@ -26,6 +22,8 @@ public class Auth {
     @NotEmpty(message = "Role should not be empty")
     @Column(name = "role")
     private String role;
+    //List<String> rolesForTimeleaf = new ArrayList<>();
+
 
     @ManyToMany
 
@@ -34,6 +32,7 @@ public class Auth {
             , joinColumns = @JoinColumn(name = "for_auth_id")
             , inverseJoinColumns = @JoinColumn(name = "for_person_id")
     )
+
     private Set<User> people = new HashSet<>();
 
 
@@ -112,5 +111,10 @@ public class Auth {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String getAuthority() {
+        return role;
     }
 }

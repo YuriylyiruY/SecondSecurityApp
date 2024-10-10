@@ -23,8 +23,9 @@ public class PersonDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Auth> auths = person.getAuths();
-        return auths.stream().map(r -> new SimpleGrantedAuthority(r.getRole())).collect(Collectors.toSet());
+        return auths.stream().map(r -> new SimpleGrantedAuthority(r.getAuthority())).collect(Collectors.toSet());
     }
+
 
     @Override
     public String getPassword() {
@@ -60,4 +61,6 @@ public class PersonDetails implements UserDetails {
     public User getPerson() {
         return this.person;
     }
+
+
 }

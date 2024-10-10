@@ -5,8 +5,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -35,8 +34,11 @@ public class User {
     @NotEmpty
     private String password;
 
+    @Column(name = "last_name")
+    @NotEmpty
+    private String last_name;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "Person_Auth"
             , joinColumns = @JoinColumn(name = "for_person_id")
@@ -49,18 +51,13 @@ public class User {
     public User() {
     }
 
-    public User(int age, String email, String name, String password) {
+    public User(int person_id, String name, int age, String email, String password, String last_name) {
+        this.person_id = person_id;
+        this.name = name;
         this.age = age;
         this.email = email;
-        this.name = name;
         this.password = password;
-    }
-
-    public void addAuth(Auth auth) {
-        if (auths == null) {
-            auths = new HashSet<>();
-        }
-        auths.add(auth);
+        this.last_name = last_name;
     }
 
     public Set<Auth> getAuths() {
@@ -68,11 +65,41 @@ public class User {
     }
 
 
-
     public void setAuths(Auth auth) {
         auths.add(auth);
 
     }
+
+    public @NotEmpty String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(@NotEmpty String last_name) {
+        this.last_name = last_name;
+    }
+
+    public int getPerson_id() {
+        return person_id;
+    }
+
+    public void setPerson_id(int person_id) {
+        this.person_id = person_id;
+    }
+
+    public void deleteAuth(String s) {
+        // System.out.println (cont.getRole ());
+        auths.removeIf(cont -> Objects.equals(cont.getRole(), s));
+    }
+
+
+    public void getStringAuthFromForm(String s) {
+        // rolesForTimeleaf.add(s);
+        System.out.println(s);
+        System.out.println(s);
+
+
+    }
+
 
     @Min(value = 0, message = "Age should be greater than 0")
     public int getAge() {
